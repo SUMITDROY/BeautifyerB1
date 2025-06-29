@@ -1,0 +1,28 @@
+{
+  "name": "beta1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SUMITDROY/BeautifyerB1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SUMITDROY/BeautifyerB1/issues"
+  },
+  "homepage": "https://github.com/SUMITDROY/BeautifyerB1#readme",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "mongoose": "^8.16.1",
+    "multer": "^2.0.1",
+    "sharp": "^0.34.2"
+  },
+  "type": "module"
+}
