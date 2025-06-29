@@ -3,94 +3,675 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>index page</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Modern Image Upload & Text Screenshot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+            padding: 20px;
+        }
+
+        /* Animated background particles */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(100, 200, 255, 0.5);
+            border-radius: 50%;
+            animation: float 8s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+            50% { transform: translateY(-100px) rotate(180deg); opacity: 1; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .upload-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3rem;
+            width: 100%;
+            text-align: center;
+            transform: rotateX(5deg) rotateY(-5deg);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 80px rgba(100, 200, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .upload-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.8s;
+        }
+
+        .upload-card:hover::before {
+            left: 100%;
+        }
+
+        .upload-card:hover {
+            transform: rotateX(0deg) rotateY(0deg) translateY(-10px);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.4),
+                0 0 120px rgba(100, 200, 255, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .mode-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 2rem;
+            transform: translateZ(20px);
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: none;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .mode-btn.active {
+            background: linear-gradient(135deg, #64c8ff, #9b59b6);
+            color: white;
+            box-shadow: 0 4px 12px rgba(100, 200, 255, 0.3);
+        }
+
+        .mode-btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .upload-zone {
+            border: 2px dashed rgba(100, 200, 255, 0.3);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            transition: all 0.4s ease;
+            position: relative;
+            background: rgba(100, 200, 255, 0.02);
+            cursor: pointer;
+            transform: translateZ(20px);
+        }
+
+        .upload-zone:hover {
+            border-color: rgba(100, 200, 255, 0.6);
+            background: rgba(100, 200, 255, 0.05);
+            transform: translateZ(30px) scale(1.02);
+        }
+
+        .upload-zone.dragover {
+            border-color: #64c8ff;
+            background: rgba(100, 200, 255, 0.1);
+            transform: translateZ(40px) scale(1.05);
+        }
+
+        .upload-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #64c8ff, #9b59b6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            animation: pulse 2s infinite;
+            transform: translateZ(30px);
+            box-shadow: 0 10px 30px rgba(100, 200, 255, 0.3);
+        }
+
+        .upload-icon svg {
+            width: 40px;
+            height: 40px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translateZ(30px) scale(1); }
+            50% { transform: translateZ(35px) scale(1.1); }
+        }
+
+        .upload-text {
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            transform: translateZ(20px);
+        }
+
+        .upload-subtext {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            transform: translateZ(15px);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(25px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .upload-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .upload-btn:hover::before {
+            left: 100%;
+        }
+
+        .upload-btn:hover {
+            transform: translateZ(30px) translateY(-2px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .upload-btn:active {
+            transform: translateZ(25px) translateY(0px);
+        }
+
+        .text-input-section {
+            display: none;
+            margin-bottom: 2rem;
+        }
+
+        .text-input-section.active {
+            display: block;
+        }
+
+        .text-input {
+            width: 100%;
+            min-height: 120px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 1rem;
+            color: white;
+            font-size: 1rem;
+            resize: vertical;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #64c8ff;
+            box-shadow: 0 0 20px rgba(100, 200, 255, 0.3);
+        }
+
+        .text-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .convert-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(25px);
+            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.3);
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .convert-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .convert-btn:hover::before {
+            left: 100%;
+        }
+
+        .convert-btn:hover {
+            transform: translateZ(30px) translateY(-2px);
+            box-shadow: 0 12px 35px rgba(245, 87, 108, 0.4);
+        }
+
+        .file-preview {
+            margin-top: 2rem;
+            display: none;
+            transform: translateZ(20px);
+        }
+
+        .preview-image {
+            max-width: 300px;
+            max-height: 300px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .preview-image:hover {
+            transform: scale(1.05) translateZ(10px);
+        }
+
+        .file-info {
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-top: 1rem;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #64c8ff, #9b59b6);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+
+        /* Result section */
+        .result-section {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .result-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 80px rgba(100, 200, 255, 0.1);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-image {
+            max-width: 100%;
+            max-height: 500px;
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            margin-bottom: 2rem;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(34, 197, 94, 0.4);
+        }
+
+        @media (max-width: 600px) {
+            .upload-card {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+            
+            .mode-toggle {
+                flex-direction: column;
+                gap: 4px;
+            }
+            
+            .upload-zone {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="bg-particles"></div>
     
-    <form action="/upload" method="POST" enctype="multipart/form-data">
-        <div class="flex items-center justify-center w-full">
-          <label for="dropzone-file"
-            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-            <div class="flex flex-col items-center justify-center pt-5 pb-6">
-              <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-              </svg>
-              <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or
-                drag and drop</p>
-              <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+    <div class="container">
+        <div class="upload-card">
+            <div class="mode-toggle">
+                <button class="mode-btn active" id="uploadMode">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M14.5 4h-5L7 6.5 2.5 12l4.5 5.5h5L14.5 20H19a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-4.5z"/>
+                        <polyline points="10,9 9,10 15,16"/>
+                    </svg>
+                    Upload Images
+                </button>
+                <button class="mode-btn" id="textMode">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14,2 14,8 20,8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <polyline points="10,9 9,10 8,9"/>
+                    </svg>
+                    Text to Screenshot
+                </button>
             </div>
-            <input id="dropzone-file" type="file" name="image" class="hidden" onchange="previewFile(event)" />
-          </label>
-        </div>
 
-      
-        <!-- 🖼️ Image Preview -->
-        <div class="flex justify-center mt-4">
-          <img id="file-preview" src="#" alt="Preview" class="max-h-48 rounded-lg hidden" />
-        </div>
-      
-        <!-- 📄 File name -->
-        <div class="text-center mt-2 text-sm text-gray-600" id="file-name-display"></div>
-      
-        <div class="flex justify-center mt-4">
-          <button type="submit"
-            class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200">
-            Upload
-          </button>
-        </div>
-      </form>
+            <!-- Image Upload Section -->
+            <div class="upload-section" id="uploadSection">
+                <form action="/upload" method="POST" enctype="multipart/form-data" id="uploadForm">
+                    <div class="upload-zone" id="uploadZone">
+                        <div class="upload-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17,8 12,3 7,8"/>
+                                <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                        </div>
+                        <div class="upload-text">Drop your images here</div>
+                        <div class="upload-subtext">SVG, PNG, JPG or GIF (MAX. 800x400px)</div>
+                        <button type="button" class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                            Choose Files
+                        </button>
+                        <input type="file" id="fileInput" name="image" class="file-input" accept="image/*" onchange="previewFile(event)">
+                    </div>
+                    
+                    <div class="progress-bar" id="progressBar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    
+                    <div class="file-preview" id="filePreview">
+                        <img class="preview-image" id="previewImage" alt="Preview">
+                        <div class="file-info" id="fileInfo"></div>
+                        <button type="submit" class="upload-btn" style="margin-top: 1rem;">
+                            Upload & Process
+                        </button>
+                    </div>
+                </form>
+            </div>
 
-      <% if (imagePath && imagePath.trim()) { %>
-        <div class="flex justify-center mt-8">
-          <img src="<%= imagePath %>" alt="Beautified Image" class="rounded-xl shadow-lg max-w-xl" />
+            <!-- Text to Screenshot Section -->
+            <div class="text-input-section" id="textSection">
+                <form action="/text-to-screenshot" method="POST" id="textForm">
+                    <textarea class="text-input" id="textInput" name="text" placeholder="Enter your text here to convert to screenshot...&#10;&#10;• Support for rich formatting&#10;• Multiple themes available&#10;• High-quality PNG output"></textarea>
+                    <button type="submit" class="convert-btn" id="convertBtn">
+                        <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; margin-right: 8px;">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                            <line x1="8" y1="21" x2="16" y2="21"/>
+                            <line x1="12" y1="17" x2="12" y2="21"/>
+                        </svg>
+                        Convert to Screenshot
+                    </button>
+                </form>
+            </div>
         </div>
-        <div class="flex justify-center space-x-4">
-          <a 
-              href="<%= imagePath %>" 
-              download="beautified-image.png"
-              class="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition duration-300 transform hover:scale-105">
-              Download Image
-          </a>
-      </div>
-      <% } %>
-      
-     
-    
+    </div>
 
-      <script>
-        function previewFile(event) {
-          const input = event.target;
-          const file = input.files[0];
-          const preview = document.getElementById('file-preview');
-          const nameDisplay = document.getElementById('file-name-display');
-      
-          if (file) {
-            nameDisplay.textContent = `Selected file: ${file.name}`;
-      
-            // Show image preview if it's an image
-            if (file.type.startsWith('image/')) {
-              const reader = new FileReader();
-              reader.onload = function(e) {
-                preview.src = e.target.result;
-                preview.classList.remove('hidden');
-              }
-              reader.readAsDataURL(file);
-            } else {
-              preview.classList.add('hidden');
-              preview.src = '#';
+    <!-- Results Section (EJS Template Integration) -->
+    <% if (typeof imagePath !== 'undefined' && imagePath && imagePath.trim()) { %>
+    <div class="result-section">
+        <div class="result-card">
+            <img src="<%= imagePath %>" alt="Processed Image" class="result-image" />
+            <a href="<%= imagePath %>" 
+               download="processed-image.png"
+               class="download-btn">
+                <svg viewBox="0 0 24 24" style="width: 20px; height: 20px;">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7,10 12,15 17,10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Download Image
+            </a>
+        </div>
+    </div>
+    <% } %>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.querySelector('.bg-particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 5) + 's';
+                particlesContainer.appendChild(particle);
             }
-          } else {
-            nameDisplay.textContent = '';
-            preview.classList.add('hidden');
-            preview.src = '#';
-          }
         }
-      </script>
-      
-      
 
+        // Mode switching functionality
+        const uploadMode = document.getElementById('uploadMode');
+        const textMode = document.getElementById('textMode');
+        const uploadSection = document.getElementById('uploadSection');
+        const textSection = document.getElementById('textSection');
+
+        uploadMode.addEventListener('click', () => {
+            uploadMode.classList.add('active');
+            textMode.classList.remove('active');
+            uploadSection.style.display = 'block';
+            textSection.classList.remove('active');
+        });
+
+        textMode.addEventListener('click', () => {
+            textMode.classList.add('active');
+            uploadMode.classList.remove('active');
+            uploadSection.style.display = 'none';
+            textSection.classList.add('active');
+        });
+
+        // File upload functionality
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('fileInput');
+        const filePreview = document.getElementById('filePreview');
+        const previewImage = document.getElementById('previewImage');
+        const fileInfo = document.getElementById('fileInfo');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+
+        // Drag and drop handlers
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                previewFile({ target: { files: files } });
+            }
+        });
+
+        uploadZone.addEventListener('click', (e) => {
+            if (e.target.tagName !== 'BUTTON') {
+                fileInput.click();
+            }
+        });
+
+        // Preview file function (from your original code)
+        function previewFile(event) {
+            const input = event.target;
+            const file = input.files[0];
+            const preview = document.getElementById('previewImage');
+            const nameDisplay = document.getElementById('fileInfo');
+
+            if (file) {
+                nameDisplay.textContent = `Selected file: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+
+                // Show image preview if it's an image
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        preview.src = e.target.result;
+                        filePreview.style.display = 'block';
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    filePreview.style.display = 'none';
+                    preview.src = '#';
+                }
+            } else {
+                nameDisplay.textContent = '';
+                filePreview.style.display = 'none';
+                preview.src = '#';
+            }
+        }
+
+        // Form submission with progress simulation
+        document.getElementById('uploadForm').addEventListener('submit', function() {
+            progressBar.style.display = 'block';
+            simulateProgress();
+        });
+
+        document.getElementById('textForm').addEventListener('submit', function() {
+            progressBar.style.display = 'block';
+            simulateProgress();
+        });
+
+        function simulateProgress() {
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 10;
+                if (progress >= 90) {
+                    progress = 90;
+                    clearInterval(interval);
+                }
+                progressFill.style.width = progress + '%';
+            }, 100);
+        }
+
+        // Initialize particles
+        createParticles();
+
+        // Add subtle mouse tracking for 3D effect
+        document.addEventListener('mousemove', (e) => {
+            const card = document.querySelector('.upload-card');
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            const rotateX = (y / rect.height) * 10;
+            const rotateY = -(x / rect.width) * 10;
+            
+            if (e.target.closest('.upload-card')) {
+                card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+            }
+        });
+
+        document.addEventListener('mouseleave', () => {
+            const card = document.querySelector('.upload-card');
+            card.style.transform = 'rotateX(5deg) rotateY(-5deg)';
+        });
+    </script>
 </body>
 </html>
