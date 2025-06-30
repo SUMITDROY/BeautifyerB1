@@ -17,7 +17,7 @@
     }
   </style>
 </head>
-<body class="min-h-screen relative overflow-x-hidden">
+<body class="flex flex-col justify-center items-center mt-32 mb-10">
 
   <main class="flex flex-col items-center">
   <!-- Background -->
@@ -49,17 +49,27 @@
     </ul>
   </nav>
 
+  <div class="flex flex-col items-center gap-8" >
+  <div class="inline-flex items-center space-x-3 bg-white/10 text-white px-4 py-2 rounded-full backdrop-blur-md border border-white/20 shadow-md hover:shadow-pink-500/30 transition-all duration-300 ">
+    <span class="font-medium">Hi 🙋‍♂️</span>
+    <span class="font-medium">good to see you ⚡</span>
+    <!-- <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+    </svg> -->
+  </div>
+  
 
-  <div class="flex flex-col justify-center items-center min-h-screen">
+
+  
+  <div class="flex flex-col justify-center items-center ">
     <h1 class="text-white text-2xl sm:text-3xl font-semibold">Welcome to SNAP_B</h1>
     <p class="text-white/70 mt-2 text-sm sm:text-base">Upload your image and experience the magic ✨</p>
   </div>
 
 
 
-
   <!-- Upload Box -->
-  <div class=" w-[90vw] max-w-md p-4 sm:p-6 bg-white/10 border border-white/20 rounded-2xl backdrop-blur-md shadow-2xl transition hover:shadow-pink-500/30 group">
+  <div class="w-[90vw] max-w-md p-4 sm:p-6 bg-white/10 border border-white/20 rounded-2xl backdrop-blur-md shadow-2xl transition hover:shadow-pink-500/30 group">
     <div class="text-center">
       <label for="file-upload" class="cursor-pointer flex flex-col items-center justify-center space-y-2">
         <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-dashed border-white/30 group-hover:border-white/60 flex items-center justify-center overflow-hidden">
@@ -74,8 +84,31 @@
       </label>
       <input id="file-upload" type="file" accept="image/*" class="hidden" />
     </div>
+
+  </div>
+
+    <div class="inline-flex items-center space-x-2 bg-white/10 text-white px-4 py-2 rounded-xl backdrop-blur-md border border-white/20 shadow-md hover:shadow-pink-500/30 transition-all duration-300">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white/80" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.85 10.92.57.1.78-.25.78-.55 0-.27-.01-1.15-.02-2.09-3.2.69-3.88-1.54-3.88-1.54-.52-1.31-1.27-1.66-1.27-1.66-1.04-.71.08-.7.08-.7 1.15.08 1.75 1.19 1.75 1.19 1.02 1.74 2.67 1.23 3.32.94.1-.74.4-1.23.73-1.51-2.55-.29-5.23-1.28-5.23-5.72 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.14 1.18a10.96 10.96 0 012.86-.39c.97 0 1.95.13 2.86.39 2.18-1.5 3.13-1.18 3.13-1.18.62 1.57.23 2.73.11 3.02.74.81 1.18 1.84 1.18 3.1 0 4.45-2.68 5.43-5.24 5.71.41.35.78 1.04.78 2.11 0 1.52-.01 2.75-.01 3.12 0 .3.2.65.79.54A10.502 10.502 0 0023.5 12C23.5 5.65 18.35.5 12 .5z"/>
+      </svg>
+      <span class="font-semibold">Contribute Here!</span>
+    </div>
+  
+    <div class="inline-flex items-center space-x-2 bg-white/10 text-white px-4 py-2 rounded-xl backdrop-blur-md border border-white/20 shadow-md hover:shadow-pink-500/30 transition-all duration-300">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 18l6-6-6-6M8 6H2v12h6"/>
+      </svg>
+      <span class="font-medium">Browse Patterns</span>
+    </div>
+    
+
+
+
+
+
   </div>
 </main>
+
 
   <!-- Script -->
   <script>
