@@ -1,58 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Document</title>
   <style>
-  @keyframes liquid {
-    0%, 100% { border-radius: 24px; }
-    25% { border-radius: 32px 16px 24px 20px; }
-    50% { border-radius: 16px 32px 20px 24px; }
-    75% { border-radius: 24px 20px 32px 16px; }
-  }
-  .animate-liquid {
-    animation: liquid 8s infinite ease-in-out;
-  }
+    @keyframes liquid {
+      0%, 100% { border-radius: 24px; }
+      25% { border-radius: 32px 16px 24px 20px; }
+      50% { border-radius: 16px 32px 20px 24px; }
+      75% { border-radius: 24px 20px 32px 16px; }
+    }
+    .animate-liquid {
+      animation: liquid 8s infinite ease-in-out;
+    }
   </style>
-    <title>Document</title>
 </head>
+<body class="min-h-screen relative overflow-x-hidden">
 
-<body class="min-h-screen flex items-center justify-center">
-   
-  <nav class="fixed top-2 left-1/2 transform -translate-x-1/2 bg-white bg-opacity-10 backdrop-blur-xl border border-white border-opacity-10 rounded-3xl px-6 py-3 shadow-xl transition-all duration-300 hover:bg-opacity-20 hover:-translate-y-1 hover:-translate-x-1/2 z-50 animate-liquid">
-    <ul class="flex list-none gap-2 items-center">
+  <main class="flex flex-col items-center">
+  <!-- Background -->
+  <div class="absolute inset-0 -z-10"
+       style="
+         background: #020617;
+         background-image:
+           linear-gradient(to right, rgba(71,85,105,0.15) 1px, transparent 1px),
+           linear-gradient(to bottom, rgba(71,85,105,0.15) 1px, transparent 1px),
+           radial-gradient(circle at 50% 60%, rgba(236,72,153,0.15) 0%, rgba(168,85,247,0.05) 40%, transparent 70%);
+         background-size: 40px 40px, 40px 40px, 100% 100%;
+       ">
+  </div>
+
+  <!-- Nav -->
+  <nav class="fixed top-2 left-1/2 transform -translate-x-1/2 bg-white bg-opacity-10 backdrop-blur-xl border border-white border-opacity-10 rounded-3xl px-4 sm:px-6 py-3 shadow-xl transition-all duration-300 hover:bg-opacity-20 hover:-translate-y-1 hover:-translate-x-1/2 z-50 animate-liquid w-[90vw] max-w-lg">
+    <ul class="flex flex-wrap sm:flex-nowrap justify-center gap-2 items-center text-sm sm:text-base">
       <li>
-        <a href="#" class="block px-4 py-2 text-white text-opacity-100 no-underline font-medium text-sm rounded-xl transition-all duration-300 hover:text-white hover:bg-white hover:bg-opacity-20 hover:-translate-y-0.5">Home</a>
+        <a href="#" class="block px-3 sm:px-4 py-2 text-white text-opacity-100 no-underline font-medium rounded-xl transition-all duration-300 hover:text-white hover:bg-white hover:bg-opacity-20 hover:-translate-y-0.5">Home</a>
       </li>
-      <div class="w-px h-5 bg-white bg-opacity-20 mx-1"></div>
+      <div class="w-px h-5 bg-white bg-opacity-20 mx-1 hidden sm:block"></div>
       <li>
-        <a href="#" class="block px-4 py-2 text-white text-opacity-100 no-underline font-medium text-sm rounded-xl transition-all duration-300 hover:text-white hover:bg-white hover:bg-opacity-20 hover:-translate-y-0.5">SNAP_B</a>
+        <a href="#" class="block px-3 sm:px-4 py-2 text-white text-opacity-100 no-underline font-medium rounded-xl transition-all duration-300 hover:text-white hover:bg-white hover:bg-opacity-20 hover:-translate-y-0.5">SNAP_B</a>
       </li>
-      <div class="w-px h-5 bg-white bg-opacity-20 mx-1"></div>
+      <div class="w-px h-5 bg-white bg-opacity-20 mx-1 hidden sm:block"></div>
       <li>
-        <a href="#" class="block px-4 py-2 text-white text-opacity-100 no-underline font-medium text-sm rounded-xl transition-all duration-300 hover:text-white hover:bg-white hover:bg-opacity-20 hover:-translate-y-0.5">More</a>
+        <a href="#" class="block px-3 sm:px-4 py-2 text-white text-opacity-100 no-underline font-medium rounded-xl transition-all duration-300 hover:text-white hover:bg-white hover:bg-opacity-20 hover:-translate-y-0.5">More</a>
       </li>
-      
     </ul>
   </nav>
-  
-    <div class="absolute inset-0 z-0"
-         style="
-           background: #020617;
-           background-image:
-             linear-gradient(to right, rgba(71,85,105,0.15) 1px, transparent 1px),
-             linear-gradient(to bottom, rgba(71,85,105,0.15) 1px, transparent 1px),
-             radial-gradient(circle at 50% 60%, rgba(236,72,153,0.15) 0%, rgba(168,85,247,0.05) 40%, transparent 70%);
-           background-size: 40px 40px, 40px 40px, 100% 100%;
-         ">
-    </div>
-  
-    <div class="w-full max-w-md p-6 bg-white/10 border border-white/20 rounded-2xl backdrop-blur-md shadow-2xl transition hover:shadow-pink-500/30 group">
-    
+
+
+  <div class="flex flex-col justify-center items-center min-h-screen">
+    <h1 class="text-white text-2xl sm:text-3xl font-semibold">Welcome to SNAP_B</h1>
+    <p class="text-white/70 mt-2 text-sm sm:text-base">Upload your image and experience the magic ✨</p>
+  </div>
+
+
+
+
+  <!-- Upload Box -->
+  <div class=" w-[90vw] max-w-md p-4 sm:p-6 bg-white/10 border border-white/20 rounded-2xl backdrop-blur-md shadow-2xl transition hover:shadow-pink-500/30 group">
     <div class="text-center">
       <label for="file-upload" class="cursor-pointer flex flex-col items-center justify-center space-y-2">
-        <div class="w-24 h-24 rounded-full border-2 border-dashed border-white/30 group-hover:border-white/60 flex items-center justify-center overflow-hidden">
+        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-dashed border-white/30 group-hover:border-white/60 flex items-center justify-center overflow-hidden">
           <img id="preview" src="" alt="Preview" class="hidden w-full h-full object-cover rounded-full" />
           <svg id="upload-icon" class="w-8 h-8 text-white/60 group-hover:text-white" fill="none" stroke="currentColor" stroke-width="2"
                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -60,13 +70,14 @@
                   d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4"></path>
           </svg>
         </div>
-        <p class="text-sm text-white/70 group-hover:text-white transition">Click or drag an image to upload</p>
+        <p class="text-sm text-white/70 group-hover:text-white transition text-center">Click or drag an image to upload</p>
       </label>
       <input id="file-upload" type="file" accept="image/*" class="hidden" />
     </div>
-
   </div>
+</main>
 
+  <!-- Script -->
   <script>
     const input = document.getElementById('file-upload');
     const preview = document.getElementById('preview');
@@ -84,7 +95,6 @@
       reader.readAsDataURL(file);
     });
   </script>
-  </div>
-</body>
 
+</body>
 </html>
