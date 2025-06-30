@@ -30,14 +30,14 @@ app.listen(3005, () => {
 });
 
 app.get("/", (req, res) => {
-  res.render("index", { imagePath: null });
+  res.render("anotherindex", { imagePath: null });
 });
 
 app.post("/upload", upload.single("image"), async (req, res) => {
   try {
     const file = req.file;
     const beautifiedFilename = await beautifyImage(file);
-    res.render("index", {
+    res.render("anotherindex", {
       imagePath: "/images/beautified/" + beautifiedFilename,
     });
   } catch (err) {
