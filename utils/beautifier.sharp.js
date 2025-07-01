@@ -1,21 +1,19 @@
 import sharp from 'sharp';
 import path from 'path';
 import fs from 'fs/promises';
+import puppeteer from 'puppeteer';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
-// ESM directory fix
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
-const outputDir = path.join(__dirname, 'public/images/beautified');
+const outputDir = path.resolve('public/images/beautified');
+console.log('Output directory is:', outputDir);
 
 export default async function beautifyImage({ file, text }) {
-  const { getHighlighter } = await import('shiki/core');
-
   const padding = 120;
-  const fullWidth = 1000;
-  const fullHeight = 600;
+  const fullWidth = 1400;
+  const fullHeight = 1000;
 
   await fs.mkdir(outputDir, { recursive: true });
 
@@ -41,36 +39,51 @@ export default async function beautifyImage({ file, text }) {
         height,
       };
     } else if (text) {
-      const highlighter = await getHighlighter({
-        themes: ['nord'], // built-in VS Code-style theme
-        defaultTheme: 'nord',
-      });
-
-      const html = highlighter.codeToHtml(text, {
-        lang: 'javascript',
-      });
-
-      const svgContent = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="${fullWidth - padding * 2}" height="${fullHeight - padding * 2}">
-          <foreignObject width="100%" height="100%">
-            <style>
-              * { margin: 0; padding: 0; }
-              pre.shiki {
-                font-family: 'Fira Code', 'JetBrains Mono', Consolas, monospace;
-                font-size: 24px;
-                line-height: 1.6;
-                background: transparent;
-              }
-            </style>
-            ${html}
-          </foreignObject>
-        </svg>
+      const html = `
+        <html>
+        <head>
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+          <style>
+            * {
+              box-sizing: border-box;
+            }
+            html, body {
+              margin: 0;
+              padding: 0;
+              background: transparent;
+              font-family: 'Fira Code', 'JetBrains Mono', Consolas, monospace;
+            }
+            pre {
+              font-size: 22px;
+              padding: 32px;
+              white-space: pre-wrap;
+              line-height: 1.7;
+              border-radius: 16px;
+              overflow-x: auto;
+              max-width: 100%;
+            }
+            code {
+              display: block;
+            }
+          </style>
+        </head>
+        <body>
+          <pre><code class="language-javascript">${text}</code></pre>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+          <script>hljs.highlightAll();</script>
+        </body>
+        </html>
       `;
 
-      const textBuffer = await sharp(Buffer.from(svgContent)).png().toBuffer();
+      const browser = await puppeteer.launch();
+      const page = await browser.newPage();
+      await page.setViewport({ width: fullWidth - padding * 2, height: fullHeight - padding * 2 });
+      await page.setContent(html, { waitUntil: 'networkidle0' });
+      const codeBuffer = await page.screenshot({ omitBackground: true });
+      await browser.close();
 
       imageBuffer = {
-        buffer: textBuffer,
+        buffer: codeBuffer,
         width: fullWidth - padding * 2,
         height: fullHeight - padding * 2,
       };
@@ -133,7 +146,7 @@ export default async function beautifyImage({ file, text }) {
 
     return pngFileName;
   } catch (err) {
-    console.error('Sharp or Shiki processing error:', err);
+    console.error('Sharp or Puppeteer processing error:', err);
     throw err;
   }
 }
