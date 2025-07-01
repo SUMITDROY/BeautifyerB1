@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/SUMITDROY/BeautifyerB1#readme",
   "dependencies": {
+    "animate.css": "^4.1.1",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "mongoose": "^8.16.1",
