@@ -7,14 +7,13 @@ import { dirname } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const outputDir = '/tmp'
-console.log('Output directory is:', outputDir);
 
-export default async function beautifyImage({ file, text }) {
+export default async function beautifyImage({ file, text, returnBuffer = false }) {
   const padding = 120;
   const fullWidth = 1400;
   const fullHeight = 1000;
 
+  const outputDir = path.join('/tmp', 'beautified'); // ✅ Safe temp dir
   await fs.mkdir(outputDir, { recursive: true });
 
   const baseName = file?.filename
@@ -44,9 +43,6 @@ export default async function beautifyImage({ file, text }) {
         <head>
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
           <style>
-            * {
-              box-sizing: border-box;
-            }
             html, body {
               margin: 0;
               padding: 0;
@@ -60,11 +56,8 @@ export default async function beautifyImage({ file, text }) {
               line-height: 1.7;
               border-radius: 16px;
               overflow-x: auto;
-              max-width: 100%;
             }
-            code {
-              display: block;
-            }
+            code { display: block; }
           </style>
         </head>
         <body>
@@ -75,7 +68,10 @@ export default async function beautifyImage({ file, text }) {
         </html>
       `;
 
-      const browser = await puppeteer.launch();
+      const browser = await puppeteer.launch({
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+      });
+
       const page = await browser.newPage();
       await page.setViewport({ width: fullWidth - padding * 2, height: fullHeight - padding * 2 });
       await page.setContent(html, { waitUntil: 'networkidle0' });
@@ -101,10 +97,7 @@ export default async function beautifyImage({ file, text }) {
         channels: 4,
         background: { r: 0, g: 0, b: 0, alpha: 0.3 },
       },
-    })
-      .blur(40)
-      .png()
-      .toBuffer();
+    }).blur(40).png().toBuffer();
 
     const glassSvg = `
       <svg width="${fullCanvasWidth}" height="${fullCanvasHeight}" xmlns="http://www.w3.org/2000/svg">
@@ -127,7 +120,7 @@ export default async function beautifyImage({ file, text }) {
       </svg>
     `;
 
-    await sharp({
+    const finalImageBuffer = await sharp({
       create: {
         width: fullCanvasWidth,
         height: fullCanvasHeight,
@@ -142,9 +135,9 @@ export default async function beautifyImage({ file, text }) {
         { input: Buffer.from(roundedCornersSvg), blend: 'dest-in' },
       ])
       .png()
-      .toFile(outputPath);
+      .toBuffer();
 
-      return outputPath;
+    return returnBuffer ? finalImageBuffer : outputPath;
   } catch (err) {
     console.error('Sharp or Puppeteer processing error:', err);
     throw err;
