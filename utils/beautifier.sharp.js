@@ -7,7 +7,7 @@ import { dirname } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const outputDir = path.resolve('public/images/beautified');
+const outputDir = '/tmp'
 console.log('Output directory is:', outputDir);
 
 export default async function beautifyImage({ file, text }) {
@@ -144,7 +144,7 @@ export default async function beautifyImage({ file, text }) {
       .png()
       .toFile(outputPath);
 
-    return pngFileName;
+      return outputPath;
   } catch (err) {
     console.error('Sharp or Puppeteer processing error:', err);
     throw err;

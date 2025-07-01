@@ -32,18 +32,34 @@ app.get("/", (req, res) => {
   res.render("anotherindex", { imagePath: null });
 });
 
+// app.post("/upload", upload.single("image"), async (req, res) => {
+//   try {
+//     const file = req.file;
+//     const text = req.body.code
+//     const beautifiedFilename = await beautifyImage({file,text});
+//     res.render("anotherindex", {
+//       imagePath: "/images/beautified/" + beautifiedFilename,
+//     });
+//   } catch (err) {
+//     res.render("try again something went wrong", { err });
+//   }
+// });
+
+
 app.post("/upload", upload.single("image"), async (req, res) => {
   try {
     const file = req.file;
-    const text = req.body.code
-    const beautifiedFilename = await beautifyImage({file,text});
-    res.render("anotherindex", {
-      imagePath: "/images/beautified/" + beautifiedFilename,
-    });
+    const text = req.body.code;
+
+    const outputPath = await beautifyImage({ file, text });
+
+    res.sendFile(outputPath); // ✅ Serve the file directly from /tmp
   } catch (err) {
-    res.render("try again something went wrong", { err });
+    console.error("Error during upload:", err);
+    res.status(500).send("Something went wrong!");
   }
 });
+
 
 export default app;
 
