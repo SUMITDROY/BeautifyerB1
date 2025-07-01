@@ -26,6 +26,9 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
 
 
+app.listen(3005, () => {
+  console.log("server started");
+});
 
 app.get("/", (req, res) => {
   res.render("anotherindex", { imagePath: null });
@@ -45,4 +48,4 @@ app.post("/upload", upload.single("image"), async (req, res) => {
 });
 
 
-module.exports = app;
+// module.exports = app;
