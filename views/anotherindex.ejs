@@ -124,13 +124,32 @@
         <div
           class="w-[90vw] max-w-md p-4 sm:p-6 bg-white/10 border border-white/20 rounded-2xl backdrop-blur-md shadow-2xl transition hover:shadow-pink-500/30 group">
       
-          <div class="text-center">
+          <!-- Toggle Buttons -->
+          <div class="flex justify-center mb-4 space-x-4 text-white/80">
+            <label class="cursor-pointer">
+              <input type="radio" name="inputType" value="image" checked class="hidden peer/image" />
+              <div
+                class="px-4 py-2 rounded-full border border-white/30 peer-checked/image:bg-pink-500/80 peer-checked/image:text-white transition">
+                Upload Screenshot
+              </div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="inputType" value="code" class="hidden peer/code" />
+              <div
+                class="px-4 py-2 rounded-full border border-white/30 peer-checked/code:bg-pink-500/80 peer-checked/code:text-white transition">
+                Paste Code
+              </div>
+            </label>
+          </div>
+      
+          <!-- Image Upload Box -->
+          <div id="imageInput" class="text-center">
             <label for="file-upload" class="cursor-pointer flex flex-col items-center justify-center space-y-2">
               <div
                 class="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-dashed border-white/30 group-hover:border-white/60 flex items-center justify-center overflow-hidden">
                 <img id="preview" src="" alt="Preview" class="hidden w-full h-full object-cover rounded-full" />
-                <svg id="upload-icon" class="w-8 h-8 text-white/60 group-hover:text-white" fill="none"
-                  stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <svg id="upload-icon" class="w-8 h-8 text-white/60 group-hover:text-white" fill="none" stroke="currentColor"
+                  stroke-width="2" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round"
                     d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4"></path>
                 </svg>
@@ -139,16 +158,23 @@
                 Click or drag an image to upload
               </p>
             </label>
-            <!-- Corrected: added `name` and `form` structure -->
-            <input id="file-upload" name="image" type="file" accept="image/*" class="hidden" required />
+            <input id="file-upload" name="image" type="file" accept="image/*" class="hidden" />
           </div>
       
+          <!-- Code Textarea -->
+          <div id="codeInput" class="hidden mt-4">
+            <textarea name="code" rows="10"
+              class="w-full p-3 rounded-lg bg-white/5 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-pink-500"
+              placeholder="Paste your code here..."></textarea>
+          </div>
+      
+          <!-- Submit -->
           <button type="submit"
-            class="upload-btn mt-4 text-white bg-pink-500 hover:bg-pink-600 px-4 py-2 rounded-full transition">
+            class="mt-4 text-white bg-pink-500 hover:bg-pink-600 px-4 py-2 rounded-full transition">
             Upload & Process
           </button>
       
-          <!-- EJS result rendering -->
+          <!-- Rendered Image -->
           <% if (typeof imagePath !== 'undefined' && imagePath && imagePath.trim()) { %>
           <div class="result-section mt-4">
             <div class="result-card">
@@ -163,16 +189,14 @@
         </div>
       </form>
       
-
-      
-
+      <!-- Section + Buttons -->
       <section class="flex flex-col justify-center items-cente text-center px-4 py-10">
-      <p class="text-base sm:text-lg text-white/70 mt-4 max-w-xl mx-auto">
-        Upload your screenshot, to see the magic
-      </p>
-
-    </section>
-
+        <p class="text-base sm:text-lg text-white/70 mt-4 max-w-xl mx-auto">
+          Upload your screenshot or paste code to see the magic
+        </p>
+      </section>
+      
+      <!-- Bottom Buttons -->
       <div
         class="inline-flex items-center space-x-2 bg-white/10 text-white px-4 py-2 rounded-xl backdrop-blur-md border border-white/20 shadow-md hover:shadow-pink-500/30 transition-all duration-300">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white/80" fill="currentColor" viewBox="0 0 24 24">
@@ -181,7 +205,7 @@
         </svg>
         <span class="font-semibold">Contribute Here!</span>
       </div>
-
+      
       <div
         class="inline-flex items-center space-x-2 bg-white/10 text-white px-4 py-2 rounded-xl backdrop-blur-md border border-white/20 shadow-md hover:shadow-pink-500/30 transition-all duration-300">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white/80" fill="none" viewBox="0 0 24 24"
@@ -205,6 +229,22 @@
     const input = document.getElementById('file-upload');
     const preview = document.getElementById('preview');
     const icon = document.getElementById('upload-icon');
+    const radioButtons = document.querySelectorAll('input[name="inputType"]');
+  const codeInput = document.getElementById('codeInput');
+  const imageInput = document.getElementById('imageInput');
+
+
+  radioButtons.forEach(radio => {
+    radio.addEventListener('change', () => {
+      if (radio.value === 'code') {
+        codeInput.classList.remove('hidden');
+        imageInput.classList.add('hidden');
+      } else {
+        imageInput.classList.remove('hidden');
+        codeInput.classList.add('hidden');
+      }
+    });
+  });
 
     input.addEventListener('change', (e) => {
       const file = e.target.files[0];
