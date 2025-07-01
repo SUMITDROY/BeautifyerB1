@@ -5,10 +5,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <title>Document</title>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <title>SNAP_B</title>
+
   <style>
     @keyframes liquid {
-
       0%,
       100% {
         border-radius: 24px;
@@ -31,220 +32,164 @@
       animation: liquid 8s infinite ease-in-out;
     }
   </style>
-   <link
-   rel="stylesheet"
-   href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
- />
 </head>
 
-
-<body class="flex flex-col justify-center items-center mt-32 mb-10">
+<body class="flex flex-col justify-center items-center mt-32 mb-10 bg-black text-white">
 
   <main class="flex flex-col items-center">
-  
 
     <div class="fixed inset-0 -z-10">
-      <!-- Golden Horizon Background with Top Glow -->
-      <div
-        class="absolute inset-0 z-0"
+      <div class="absolute inset-0 z-0"
         style="background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(251, 191, 36, 0.25), transparent 70%), #000000;">
       </div>
-    
-      <!-- Your Content/Components -->
     </div>
-    
-<!-- <div class="fixed inset-0 -z-10" style="
-  background: #020617;
-  background-image:
-    linear-gradient(to right, rgba(71,85,105,0.15) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(71,85,105,0.15) 1px, transparent 1px),
-    radial-gradient(circle at 50% 60%, rgba(236,72,153,0.15) 0%, rgba(168,85,247,0.05) 40%, transparent 70%);
-  background-size: 40px 40px, 40px 40px, 100% 100%;
-"></div> -->
 
-
-
-
-    <nav class="fixed top-2 left-1/2 transform -translate-x-1/2 w-[90vw] max-w-lg z-50
-  bg-white/10 border border-white/20 backdrop-blur-md rounded-3xl
-  px-4 sm:px-6 py-3 shadow-md hover:shadow-pink-500/30 transition-all duration-300 animate-liquid">
+    <!-- Navigation -->
+    <nav
+      class="fixed top-2 left-1/2 transform -translate-x-1/2 w-[90vw] max-w-lg z-50 bg-white/10 border border-white/20 backdrop-blur-md rounded-3xl px-4 sm:px-6 py-3 shadow-md hover:shadow-cyan-500/30 transition-all duration-300 animate-liquid">
       <ul class="flex flex-wrap sm:flex-nowrap justify-center gap-2 items-center text-sm sm:text-base text-white">
-        <li>
-          <a href="#" class="block px-3 sm:px-4 py-2 font-medium rounded-xl transition-all duration-300 
-              hover:bg-white/20 hover:-translate-y-0.5">
-            Home
-          </a>
-        </li>
+        <li><a href="#" class="block px-3 sm:px-4 py-2 font-medium rounded-xl hover:bg-white/20 hover:-translate-y-0.5 transition-all duration-300">Home</a></li>
         <div class="hidden sm:block w-px h-5 bg-white/20 mx-1"></div>
-        <li>
-          <a href="#" class="block px-3 sm:px-4 py-2 font-medium rounded-xl transition-all duration-300 
-              hover:bg-white/20 hover:-translate-y-0.5">
-            SNAP_B
-          </a>
-        </li>
+        <li><a href="#" class="block px-3 sm:px-4 py-2 font-medium rounded-xl hover:bg-white/20 hover:-translate-y-0.5 transition-all duration-300">SNAP_B</a></li>
         <div class="hidden sm:block w-px h-5 bg-white/20 mx-1"></div>
-        <li>
-          <a href="#" class="block px-3 sm:px-4 py-2 font-medium rounded-xl transition-all duration-300 
-              hover:bg-white/20 hover:-translate-y-0.5">
-            More
-          </a>
-        </li>
+        <li><a href="#" class="block px-3 sm:px-4 py-2 font-medium rounded-xl hover:bg-white/20 hover:-translate-y-0.5 transition-all duration-300">More</a></li>
       </ul>
     </nav>
 
-
-
-    <div class="flex flex-col items-center gap-8">
-      <div
-        class="inline-flex items-center space-x-3 bg-white/10 text-white px-4 py-2 rounded-full backdrop-blur-md border border-white/20 shadow-md hover:shadow-pink-500/30 transition-all duration-300 ">
-        <span class="font-medium">Hi 🙋‍♂️</span>
-        <span class="font-medium">good to see you ⚡</span>
-        <!-- <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-    </svg> -->
-      </div>
-
-
-
-      <!-- <div class="flex flex-col justify-center items-center ">
-        <h1 class="text-white text-2xl sm:text-3xl font-semibold">Welcome to SNAP_B</h1>
-        <p class="text-white/70 mt-2 text-sm sm:text-base">Upload your image and experience the magic ✨</p>
-      </div> -->
-
-      <section class="flex flex-col justify-center items-cente text-center px-4 py-10">
-        <h1 class="text-4xl sm:text-5xl font-bold text-white">Welcome to Snap-B</h1>
-        <h2 class="text-2xl sm:text-3xl font-semibold text-slate-300 mt-2">screenshot beautifier</h2>
-      </section>
-      
-
-
-
-      <!-- Upload Box -->
-      <form action="/upload" method="POST" enctype="multipart/form-data">
-        <div
-          class="w-[90vw] max-w-md p-4 sm:p-6 bg-white/10 border border-white/20 rounded-2xl backdrop-blur-md shadow-2xl transition hover:shadow-pink-500/30 group">
-      
-          <!-- Toggle Buttons -->
-          <div class="flex justify-center mb-4 space-x-4 text-white/80">
-            <label class="cursor-pointer">
-              <input type="radio" name="inputType" value="image" checked class="hidden peer/image" />
-              <div
-                class="px-4 py-2 rounded-full border border-white/30 peer-checked/image:bg-pink-500/80 peer-checked/image:text-white transition">
-                Upload Screenshot
-              </div>
-            </label>
-            <label class="cursor-pointer">
-              <input type="radio" name="inputType" value="code" class="hidden peer/code" />
-              <div
-                class="px-4 py-2 rounded-full border border-white/30 peer-checked/code:bg-pink-500/80 peer-checked/code:text-white transition">
-                Paste Code
-              </div>
-            </label>
-          </div>
-      
-          <!-- Image Upload Box -->
-          <div id="imageInput" class="text-center">
-            <label for="file-upload" class="cursor-pointer flex flex-col items-center justify-center space-y-2">
-              <div
-                class="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-dashed border-white/30 group-hover:border-white/60 flex items-center justify-center overflow-hidden">
-                <img id="preview" src="" alt="Preview" class="hidden w-full h-full object-cover rounded-full" />
-                <svg id="upload-icon" class="w-8 h-8 text-white/60 group-hover:text-white" fill="none" stroke="currentColor"
-                  stroke-width="2" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4"></path>
-                </svg>
-              </div>
-              <p class="text-sm text-white/70 group-hover:text-white transition text-center">
-                Click or drag an image to upload
-              </p>
-            </label>
-            <input id="file-upload" name="image" type="file" accept="image/*" class="hidden" />
-          </div>
-      
-          <!-- Code Textarea -->
-          <div id="codeInput" class="hidden mt-4">
-            <textarea name="code" rows="10"
-              class="w-full p-3 rounded-lg bg-white/5 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-pink-500"
-              placeholder="Paste your code here..."></textarea>
-          </div>
-      
-          <!-- Submit -->
-          <button type="submit"
-            class="mt-4 text-white bg-pink-500 hover:bg-pink-600 px-4 py-2 rounded-full transition">
-            Upload & Process
-          </button>
-      
-          <!-- Rendered Image -->
-          <% if (typeof imagePath !== 'undefined' && imagePath && imagePath.trim()) { %>
-          <div class="result-section mt-4">
-            <div class="result-card">
-              <img src="<%= imagePath %>" alt="Processed Image" class="result-image w-full rounded-lg" />
-              <a href="<%= imagePath %>" download="processed-image.png"
-                class="inline-block mt-2 text-sm text-white underline">
-                Download Image
-              </a>
-            </div>
-          </div>
-          <% } %>
-        </div>
-      </form>
-      
-      <!-- Section + Buttons -->
-      <section class="flex flex-col justify-center items-cente text-center px-4 py-10">
-        <p class="text-base sm:text-lg text-white/70 mt-4 max-w-xl mx-auto">
-          Upload your screenshot or paste code to see the magic
-        </p>
-      </section>
-      
-      <!-- Bottom Buttons -->
-      <div
-        class="inline-flex items-center space-x-2 bg-white/10 text-white px-4 py-2 rounded-xl backdrop-blur-md border border-white/20 shadow-md hover:shadow-pink-500/30 transition-all duration-300">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white/80" fill="currentColor" viewBox="0 0 24 24">
-          <path
-            d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.85 10.92.57.1.78-.25.78-.55 0-.27-.01-1.15-.02-2.09-3.2.69-3.88-1.54-3.88-1.54-.52-1.31-1.27-1.66-1.27-1.66-1.04-.71.08-.7.08-.7 1.15.08 1.75 1.19 1.75 1.19 1.02 1.74 2.67 1.23 3.32.94.1-.74.4-1.23.73-1.51-2.55-.29-5.23-1.28-5.23-5.72 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.14 1.18a10.96 10.96 0 012.86-.39c.97 0 1.95.13 2.86.39 2.18-1.5 3.13-1.18 3.13-1.18.62 1.57.23 2.73.11 3.02.74.81 1.18 1.84 1.18 3.1 0 4.45-2.68 5.43-5.24 5.71.41.35.78 1.04.78 2.11 0 1.52-.01 2.75-.01 3.12 0 .3.2.65.79.54A10.502 10.502 0 0023.5 12C23.5 5.65 18.35.5 12 .5z" />
-        </svg>
-        <span class="font-semibold">Contribute Here!</span>
-      </div>
-      
-      <div
-        class="inline-flex items-center space-x-2 bg-white/10 text-white px-4 py-2 rounded-xl backdrop-blur-md border border-white/20 shadow-md hover:shadow-pink-500/30 transition-all duration-300">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white/80" fill="none" viewBox="0 0 24 24"
-          stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 18l6-6-6-6M8 6H2v12h6" />
-        </svg>
-        <span class="font-medium">Browse Patterns</span>
-      </div>
-
-
-
-
-
-
+    <!-- Greeting -->
+    <div class="inline-flex items-center space-x-3 bg-white/10 text-white px-4 py-2 rounded-full backdrop-blur-md border border-white/20 shadow-md hover:shadow-cyan-500/30 transition-all duration-300 mt-20">
+      <span class="font-medium">Hi 🙋‍♂️</span>
+      <span class="font-medium">good to see you ⚡</span>
     </div>
+
+    <!-- Heading -->
+    <section class="flex flex-col justify-center items-center text-center px-4 py-10">
+      <h1 class="text-4xl sm:text-5xl font-bold text-white">Welcome to Snap-B</h1>
+      <h2 x-data="textRotator()" x-init="startRotation" class="text-2xl sm:text-3xl font-semibold text-slate-300 mt-2 h-8 flex items-center justify-center">
+        <span x-text="currentText" x-transition:enter="transition-opacity duration-500" x-transition:leave="transition-opacity duration-500" class="inline-block mr-1"></span>
+        <span>beautifier</span>
+      </h2>
+    </section>
+
+    <!-- Upload Prompt -->
+    <p class="text-sm sm:text-base text-white/60 mt-4 -mb-4 text-center max-w-md">
+      Upload your screenshot or paste code to see the magic
+    </p>
+
+    <!-- Upload Box -->
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+      <div class="w-[90vw] max-w-md p-4 sm:p-6 bg-white/10 border border-white/20 rounded-2xl backdrop-blur-md shadow-2xl transition group mt-4">
+
+        <!-- Toggle Buttons -->
+        <div class="flex justify-center mb-4 space-x-4 text-white/80">
+          <label class="cursor-pointer">
+            <input type="radio" name="inputType" value="image" checked class="hidden peer/image" />
+            <div class="px-4 py-2 rounded-full border border-white/30 peer-checked/image:bg-white/20 peer-checked/image:text-white transition">
+              Upload Screenshot
+            </div>
+          </label>
+          <label class="cursor-pointer">
+            <input type="radio" name="inputType" value="code" class="hidden peer/code" />
+            <div class="px-4 py-2 rounded-full border border-white/30 peer-checked/code:bg-white/20 peer-checked/code:text-white transition">
+              Paste Code
+            </div>
+          </label>
+        </div>
+
+        <!-- Image Upload -->
+        <div id="imageInput" class="text-center">
+          <label for="file-upload" class="cursor-pointer flex flex-col items-center justify-center space-y-2">
+            <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-dashed border-white/30 group-hover:border-white/60 flex items-center justify-center overflow-hidden">
+              <img id="preview" src="" alt="Preview" class="hidden w-full h-full object-cover rounded-full" />
+              <svg id="upload-icon" class="w-8 h-8 text-white/60 group-hover:text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4"></path>
+              </svg>
+            </div>
+            <p class="text-sm text-white/70 group-hover:text-white transition text-center">Click or drag an image to upload</p>
+          </label>
+          <input id="file-upload" name="image" type="file" accept="image/*" class="hidden" />
+        </div>
+
+        <!-- Code Input -->
+        <div id="codeInput" class="hidden mt-4">
+          <textarea name="code" rows="10"
+            class="w-full p-3 rounded-lg bg-white/5 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white"
+            placeholder="Paste your code here..."></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit"
+          class="mt-6 mx-auto block text-white bg-white/10 border border-white/20 hover:bg-white/20 px-6 py-2 rounded-full transition shadow hover:shadow-cyan-500/30 backdrop-blur">
+          Upload & Process
+        </button>
+
+        <!-- Download Section (EJS) -->
+        <% if (typeof imagePath !== 'undefined' && imagePath && imagePath.trim()) { %>
+        <div class="result-section mt-4">
+          <div class="result-card">
+            <img src="<%= imagePath %>" alt="Processed Image" class="result-image w-full rounded-lg" />
+            <a href="<%= imagePath %>" download="processed-image.png"
+              class="mt-4 mx-auto block w-fit px-4 py-2 rounded-full bg-white/10 text-white border border-white/20 backdrop-blur hover:bg-white/20 transition shadow hover:shadow-cyan-500/30 text-sm">
+              Download Image
+            </a>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </form>
+
+    <!-- Bottom Buttons -->
+    <div class="inline-flex items-center space-x-2 bg-white/10 text-white px-4 py-2 mt-8 rounded-xl backdrop-blur-md border border-white/20 shadow-md hover:shadow-cyan-500/30 transition-all duration-300">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white/80" fill="currentColor" viewBox="0 0 24 24">
+        <path
+          d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.85 10.92.57.1.78-.25.78-.55 0-.27-.01-1.15-.02-2.09-3.2.69-3.88-1.54-3.88-1.54-.52-1.31-1.27-1.66-1.27-1.66-1.04-.71.08-.7.08-.7 1.15.08 1.75 1.19 1.75 1.19 1.02 1.74 2.67 1.23 3.32.94.1-.74.4-1.23.73-1.51-2.55-.29-5.23-1.28-5.23-5.72 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.14 1.18a10.96 10.96 0 012.86-.39c.97 0 1.95.13 2.86.39 2.18-1.5 3.13-1.18 3.13-1.18.62 1.57.23 2.73.11 3.02.74.81 1.18 1.84 1.18 3.1 0 4.45-2.68 5.43-5.24 5.71.41.35.78 1.04.78 2.11 0 1.52-.01 2.75-.01 3.12 0 .3.2.65.79.54A10.502 10.502 0 0023.5 12C23.5 5.65 18.35.5 12 .5z" />
+      </svg>
+      <span class="font-semibold">Contribute Here!</span>
+    </div>
+
+    <div class="inline-flex items-center space-x-2 bg-white/10 text-white px-4 py-2 mt-4 rounded-xl backdrop-blur-md border border-white/20 shadow-md hover:shadow-cyan-500/30 transition-all duration-300">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 18l6-6-6-6M8 6H2v12h6" />
+      </svg>
+      <span class="font-medium">Browse Patterns</span>
+    </div>
+
   </main>
 
-
-  <!-- Script -->
+  <!-- Alpine + Upload Toggle Script -->
   <script>
+    function textRotator() {
+      return {
+        texts: ['screenshot', 'code'],
+        currentIndex: 0,
+        currentText: 'screenshot',
+        startRotation() {
+          setInterval(() => {
+            this.currentIndex = (this.currentIndex + 1) % this.texts.length;
+            this.currentText = this.texts[this.currentIndex];
+          }, 2000);
+        }
+      };
+    }
+
     const input = document.getElementById('file-upload');
     const preview = document.getElementById('preview');
     const icon = document.getElementById('upload-icon');
     const radioButtons = document.querySelectorAll('input[name="inputType"]');
-  const codeInput = document.getElementById('codeInput');
-  const imageInput = document.getElementById('imageInput');
+    const codeInput = document.getElementById('codeInput');
+    const imageInput = document.getElementById('imageInput');
 
-
-  radioButtons.forEach(radio => {
-    radio.addEventListener('change', () => {
-      if (radio.value === 'code') {
-        codeInput.classList.remove('hidden');
-        imageInput.classList.add('hidden');
-      } else {
-        imageInput.classList.remove('hidden');
-        codeInput.classList.add('hidden');
-      }
+    radioButtons.forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (radio.value === 'code') {
+          codeInput.classList.remove('hidden');
+          imageInput.classList.add('hidden');
+        } else {
+          imageInput.classList.remove('hidden');
+          codeInput.classList.add('hidden');
+        }
+      });
     });
-  });
 
     input.addEventListener('change', (e) => {
       const file = e.target.files[0];
@@ -260,8 +205,4 @@
   </script>
 
 </body>
-
 </html>
-
-
-
