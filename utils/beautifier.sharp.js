@@ -3,83 +3,94 @@ import path from 'path';
 import fs from 'fs';
 
 export default async function beautifyImage(file) {
-    const inputPath = file.path;
-    const fileName = file.filename;
-    const outputDir = 'public/images/beautified';
-    const baseName = path.parse(fileName).name;
-    const pngFileName = baseName + '.png';
-    const outputPath = path.join(outputDir, pngFileName);
+  const inputPath = file.path;
+  const fileName = file.filename;
+  const outputDir = 'public/images/beautified';
+  const baseName = path.parse(fileName).name;
+  const pngFileName = baseName + '.png';
+  const outputPath = path.join(outputDir, pngFileName);
 
-    if (!fs.existsSync(outputDir)) {
-        fs.mkdirSync(outputDir, { recursive: true });
-    }
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
 
-    try {
-        // Step 1: Resize and pad the image
-        const paddedBuffer = await sharp(inputPath)
-            .resize({ width: 1000, withoutEnlargement: true })
-            .extend({
-                top: 120,
-                bottom: 120,
-                left: 120,
-                right: 120,
-                background: { r: 255, g: 255, b: 255, alpha: 0 } // transparent
-            })
-            .png()
-            .toBuffer();
+  try {
 
-        const { width, height } = await sharp(paddedBuffer).metadata();
+    const resizedImageBuffer = await sharp(inputPath)
+      .resize({ width: 800, withoutEnlargement: true })
+      .toBuffer();
 
-        // Step 2: Create "glass" background — a white semi-transparent rectangle
-        const glassSvg = `
-            <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
-                <rect x="0" y="0" width="${width}" height="${height}" rx="40" ry="40"
-                    fill="rgba(255, 255, 255, 0.07)" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1"/>
-            </svg>
-        `;
+    const { width: imgWidth, height: imgHeight } = await sharp(resizedImageBuffer).metadata();
 
-        // Step 3: Create a rounded corner mask
-        const roundedMaskSvg = `
-            <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
-                <rect width="100%" height="100%" rx="40" ry="40" fill="white"/>
-            </svg>
-        `;
+    const padding = 120;
+    const fullWidth = imgWidth + padding * 2;
+    const fullHeight = imgHeight + padding * 2;
 
-        // Step 4: Glassy shadow (blurred dark box behind the image)
-        const shadowBuffer = await sharp({
-            create: {
-                width,
-                height,
-                channels: 4,
-                background: { r: 0, g: 0, b: 0, alpha: 0.3 }
-            }
-        })
-            .blur(10)
-            .png()
-            .toBuffer();
+    const shadowBuffer = await sharp({
+      create: {
+        width: fullWidth,
+        height: fullHeight,
+        channels: 4,
+        background: { r: 0, g: 0, b: 0, alpha: 0.3 }
+      }
+    })
+      .blur(40)
+      .png()
+      .toBuffer();
 
-        // Step 5: Composite all together
-        await sharp({
-            create: {
-                width,
-                height,
-                channels: 4,
-                background: { r: 0, g: 0, b: 0, alpha: 0 } // transparent base
-            }
-        })
-            .composite([
-                { input: shadowBuffer, top: 10, left: 10, blend: 'dest-over' },     // shadow
-                { input: Buffer.from(glassSvg), blend: 'over' },                    // glass background
-                { input: paddedBuffer, blend: 'over' },                             // actual image
-                { input: Buffer.from(roundedMaskSvg), blend: 'dest-in' }            // rounded corners
-            ])
-            .png()
-            .toFile(outputPath);
 
-        return pngFileName;
+    const glassSvg = `
+      <svg width="${fullWidth}" height="${fullHeight}" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="${fullWidth}" height="${fullHeight}" rx="40" ry="40"
+              fill="rgba(255, 255, 255, 0.06)" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1"/>
 
-    } catch (error) {
-        console.error('Sharp processing error:', error);
-        throw error;
-    }
+        <!-- Dots -->
+        <circle cx="40" cy="40" r="10" fill="#FF5F57" />
+        <circle cx="70" cy="40" r="10" fill="#FFBD2E" />
+        <circle cx="100" cy="40" r="10" fill="#28C840" />
+      </svg>
+    `;
+
+
+    const roundedCornersSvg = `
+      <svg width="${fullWidth}" height="${fullHeight}" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <mask id="rounded">
+            <rect width="100%" height="100%" rx="40" ry="40" fill="white"/>
+          </mask>
+        </defs>
+        <rect width="100%" height="100%" fill="white" mask="url(#rounded)"/>
+      </svg>
+    `;
+
+    await sharp({
+      create: {
+        width: fullWidth,
+        height: fullHeight,
+        channels: 4,
+        background: { r: 0, g: 0, b: 0, alpha: 0 } 
+      }
+    })
+      .composite([
+   
+        { input: shadowBuffer, top: 0, left: 0, blend: 'dest-over' },
+
+    
+        { input: Buffer.from(glassSvg), blend: 'over' },
+
+     
+        { input: resizedImageBuffer, top: padding, left: padding, blend: 'over' },
+
+    
+        { input: Buffer.from(roundedCornersSvg), blend: 'dest-in' }
+      ])
+      .png()
+      .toFile(outputPath);
+
+    return pngFileName;
+
+  } catch (error) {
+    console.error('Sharp processing error:', error);
+    throw error;
+  }
 }
