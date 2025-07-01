@@ -37,7 +37,8 @@ app.get("/", (req, res) => {
 app.post("/upload", upload.single("image"), async (req, res) => {
   try {
     const file = req.file;
-    const beautifiedFilename = await beautifyImage(file);
+    const text = req.body.code
+    const beautifiedFilename = await beautifyImage({file,text});
     res.render("anotherindex", {
       imagePath: "/images/beautified/" + beautifiedFilename,
     });
