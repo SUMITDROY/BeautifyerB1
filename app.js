@@ -51,13 +51,11 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     const file = req.file;
     const text = req.body.code;
 
-    // Return the image buffer directly instead of saving it to disk
-    const imageBuffer = await beautifyImage({ file, text, returnBuffer: true });
-
-    const base64Image = imageBuffer.toString("base64");
+    const buffer = await beautifyImage({ file, text, returnBuffer: true });
+    const base64Image = buffer.toString("base64");
 
     res.render("anotherindex", {
-      imageBase64: base64Image
+      imageBase64: base64Image,
     });
   } catch (err) {
     console.error("Error during upload:", err);
