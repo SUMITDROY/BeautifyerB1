@@ -8,13 +8,14 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export default async function beautifyImage({ file, text, returnBuffer = false }) {
+// Output to /public/images/beautified for static access
+const outputDir = path.join(__dirname, '../public/images/beautified');
+await fs.mkdir(outputDir, { recursive: true });
+
+export default async function beautifyImage({ file, text }) {
   const padding = 120;
   const fullWidth = 1400;
   const fullHeight = 1000;
-
-  const outputDir = path.join('/tmp', 'beautified'); // ✅ Safe temp dir
-  await fs.mkdir(outputDir, { recursive: true });
 
   const baseName = file?.filename
     ? path.parse(file.filename).name
@@ -120,7 +121,7 @@ export default async function beautifyImage({ file, text, returnBuffer = false }
       </svg>
     `;
 
-    const finalImageBuffer = await sharp({
+    await sharp({
       create: {
         width: fullCanvasWidth,
         height: fullCanvasHeight,
@@ -135,9 +136,9 @@ export default async function beautifyImage({ file, text, returnBuffer = false }
         { input: Buffer.from(roundedCornersSvg), blend: 'dest-in' },
       ])
       .png()
-      .toBuffer();
+      .toFile(outputPath);
 
-    return returnBuffer ? finalImageBuffer : outputPath;
+    return pngFileName; // ✅ For rendering static file URL like /images/beautified/xyz.png
   } catch (err) {
     console.error('Sharp or Puppeteer processing error:', err);
     throw err;
