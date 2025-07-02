@@ -181,17 +181,18 @@
         </button>
 
 
-        <% if (typeof imageBase64 !== 'undefined' && imageBase64) { %>
+        <% if (typeof imagePath !== 'undefined' && imagePath && imagePath.trim()) { %>
           <div class="result-section mt-4">
             <div class="result-card">
-              <img src="data:image/png;base64,<%= imageBase64 %>" alt="Processed Image" class="result-image w-full rounded-lg" />
-              <a href="data:image/png;base64,<%= imageBase64 %>" download="processed-image.png"
-                class="mt-4 mx-auto block w-fit px-4 py-2 rounded-full bg-white/10 text-white border border-white/20 backdrop-blur hover:bg-white/20 transition shadow hover:shadow-cyan-500/30 text-sm">
-                Download Image
+              <img src="<%= imagePath %>" alt="Processed Image" class="result-image w-full rounded-lg" />
+              <a href="<%= imagePath %>" download="processed-image.png"
+                 class="mt-4 mx-auto block w-fit px-4 py-2 rounded-full bg-white/10 text-white border border-white/20 backdrop-blur hover:bg-white/20 transition shadow hover:shadow-cyan-500/30 text-sm">
+                 Download Image
               </a>
             </div>
           </div>
         <% } %>
+        
         
       </div>
     </form>

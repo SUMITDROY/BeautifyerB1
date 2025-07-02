@@ -51,17 +51,17 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     const file = req.file;
     const text = req.body.code;
 
-    const buffer = await beautifyImage({ file, text, returnBuffer: true });
-    const base64Image = buffer.toString("base64");
+    const filename = await beautifyImage({ file, text }); // returns filename like xyz.png
 
     res.render("anotherindex", {
-      imageBase64: base64Image,
+      imagePath: "/images/beautified/" + filename, // public/images/beautified/xyz.png
     });
   } catch (err) {
     console.error("Error during upload:", err);
     res.status(500).send("Something went wrong!");
   }
 });
+
 
 
 export default app;
