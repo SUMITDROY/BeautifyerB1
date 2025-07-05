@@ -50,9 +50,7 @@ MONGODB_URL=your_mongodb_connection_string
 
 npm start
 
-![Screenshot 2025-07-05 165703](https://github.com/user-attachments/assets/0616dda1-332e-4d8f-a579-4d721f389a4e)
-![Screenshot 2025-07-05 165628](https://github.com/user-attachments/assets/6986f064-29c6-4831-83db-970acbc632ae)
-![Screenshot 2025-07-05 165719](https://github.com/user-attachments/assets/696fc9c1-fbab-47e3-9c8b-0e8de9bf37bb)
+
 
 
 
