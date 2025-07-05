@@ -14,6 +14,7 @@ const __dirname = dirname(__filename);
 
 const app = express();
 
+
 // ✅ Make sure MONGODB_URI is defined
 if (!process.env.MONGODB_URI) {
   console.error("❌ MONGODB_URI not defined in environment variables");
